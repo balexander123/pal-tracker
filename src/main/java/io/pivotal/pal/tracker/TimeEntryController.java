@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/timeentries")
 public class TimeEntryController {
 
     private  TimeEntryRepository repo;
@@ -23,7 +22,7 @@ public class TimeEntryController {
         return new ResponseEntity<>(timeEntry, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{timeEntryId}")
+    @GetMapping("/time-entries/{timeEntryId}")
     public ResponseEntity<TimeEntry> read(@PathVariable long timeEntryId) {
         TimeEntry timeEntry = repo.find(timeEntryId);
         if(timeEntry != null){
@@ -33,7 +32,7 @@ public class TimeEntryController {
         }
 
     }
-    @PutMapping("/{timeEntryId}")
+    @PutMapping("/time-entries/{timeEntryId}")
     public ResponseEntity update(@PathVariable long timeEntryId, @RequestBody TimeEntry expected) {
         TimeEntry timeEntry = repo.update(timeEntryId,expected);
         if(timeEntry != null){
@@ -43,13 +42,13 @@ public class TimeEntryController {
         }
     }
 
-    @DeleteMapping("/{timeEntryId}")
+    @DeleteMapping("/time-entries/{timeEntryId}")
     public ResponseEntity<TimeEntry> delete(@PathVariable long timeEntryId) {
         repo.delete(timeEntryId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping()
+    @GetMapping("/time-entries")
     public ResponseEntity<List<TimeEntry>> list() {
         List<TimeEntry> timeEntryList = repo.list();
         return new ResponseEntity<>(timeEntryList, HttpStatus.OK);
