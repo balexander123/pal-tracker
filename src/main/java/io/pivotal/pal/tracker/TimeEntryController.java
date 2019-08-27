@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/time-entries")
+@RequestMapping("/timeentries")
 public class TimeEntryController {
 
     private  TimeEntryRepository repo;
@@ -49,7 +49,7 @@ public class TimeEntryController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping
+    @GetMapping()
     public ResponseEntity<List<TimeEntry>> list() {
         List<TimeEntry> timeEntryList = repo.list();
         return new ResponseEntity<>(timeEntryList, HttpStatus.OK);
