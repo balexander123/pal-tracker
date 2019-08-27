@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface TimeEntryRepository {
 
-    public TimeEntry create(TimeEntry timeEntry);
+    public TimeEntry create(TimeEntry any) ;
 
-    public TimeEntry find(long id);
+    public TimeEntry find(Long timeEntryId) ;
 
     public List<TimeEntry> list();
 
-    public TimeEntry update(long id, TimeEntry timeEntry);
+    public TimeEntry update(Long eq, TimeEntry any) ;
 
-    public void delete(long id);
+    public void delete(Long timeEntryId) ;
 }

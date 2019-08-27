@@ -1,43 +1,42 @@
 package io.pivotal.pal.tracker;
 
-import java.util.List;
-import java.util.Map;
+
+
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class InMemoryTimeEntryRepository implements TimeEntryRepository{
 
-    private Map<Long,TimeEntry> timeEntryMap = new ConcurrentHashMap<>();
+    private Map<Long, TimeEntry> timeEntries = new ConcurrentHashMap<Long, TimeEntry>();
 
-    private long id = 1;
+    private AtomicLong idProvider = new AtomicLong(0);
 
     public TimeEntry create(TimeEntry timeEntry) {
-        timeEntry.setId(id++);
-        timeEntryMap.put(timeEntry.getId(),timeEntry);
+        timeEntry.setId(idProvider.incrementAndGet());
+        timeEntries.put(timeEntry.getId(), timeEntry);
         return timeEntry;
     }
 
-    public TimeEntry find(long id) {
-        return timeEntryMap.get(id);
-
+    public TimeEntry find(Long id) {
+        return timeEntries.get(id);
     }
 
-    public List<TimeEntry>  list() {
-        return timeEntryMap.values().stream().collect(Collectors.toList());
-    }
 
-    public TimeEntry update(long id, TimeEntry timeEntry) {
-
-        if(!timeEntryMap.containsKey(id))
+    public TimeEntry update(Long id, TimeEntry timeEntry) {
+        if(timeEntries.containsKey(id) == false) {
             return null;
-
+        }
         timeEntry.setId(id);
-        timeEntryMap.put(timeEntry.getId(),timeEntry);
+        timeEntries.put(timeEntry.getId(), timeEntry);
         return timeEntry;
     }
 
-    public void delete(long id) {
-        timeEntryMap.remove(id);
+    public void delete(Long id) {
+        timeEntries.remove(id);
+    }
 
+    public List<TimeEntry> list() {
+        return new ArrayList<TimeEntry>( timeEntries.values());
     }
 }
